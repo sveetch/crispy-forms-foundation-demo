@@ -1,0 +1,16 @@
+{% extends "skeleton.html" %}
+{% load i18n %}
+
+{% block menu_item_contact %} class="active"{% endblock %}
+
+{% block base_content %}<div class="row">
+    <h2>Index des démos</h2>
+    <hr>
+    
+    {% comment %}<div class="large-6 columns text-center">
+        <p><a href="f3/" class="button large">Foundation 3</a></p>
+    </div>{% endcomment %}
+    <div class="large-6 columns text-center">
+        <p><a href="{% url 'crispy-demo-f5-index' %}" class="button large">Foundation 5</a></p>
+    </div>
+</div>{% endblock %}
