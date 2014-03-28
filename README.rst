@@ -19,7 +19,7 @@ Links
 Requires
 ========
 
-* `crispy-forms-foundation`_ >= 0.2.4;
+* `crispy-forms-foundation`_ >= 0.3.0;
 
 Install
 =======
