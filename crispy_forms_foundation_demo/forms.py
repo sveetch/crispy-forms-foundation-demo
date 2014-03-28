@@ -17,10 +17,20 @@ class BaseForm(forms.Form):
     column_input_1 = forms.CharField(label=_('Column input 1'), required=False)
     column_input_2 = forms.CharField(label=_('Column input 2'), required=True)
     column_input_3 = forms.CharField(label=_('Column input 3'), required=False)
-    textarea_input = forms.CharField(label=_('Textarea'), widget=forms.Textarea(attrs={'rows':3}), required=False)
+    textarea_input = forms.CharField(label=_('Textarea'), widget=forms.Textarea(attrs={'rows':5}), required=False)
     select_input = forms.ChoiceField(label=_('Select input'), choices=SELECT_INPUT_CHOICES, required=True)
     radio_input = forms.ChoiceField(label=_('Radio inputs'), choices=RADIO_INPUT_CHOICES, widget=forms.RadioSelect, required=False)
     checkbox_input = forms.BooleanField(label=_('Checkbox input'), required=False)
+    
+    def clean(self):
+        cleaned_data = super(BaseForm, self).clean()
+        checkbox_input = cleaned_data.get("checkbox_input")
+
+        if checkbox_input and checkbox_input == True:
+            raise forms.ValidationError(['This is a global error', 'This is another global error', 'Uncheck the "Checkbox input" to ignore these errors'])
+
+        # Always return the full collection of cleaned data.
+        return cleaned_data
 
     def save(self, commit=True):
         # Do nothing

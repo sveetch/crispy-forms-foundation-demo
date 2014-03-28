@@ -8,7 +8,13 @@
 Introduction
 ============
 
-This is a Django application to demonstrate crispy-forms-foundation.
+This is a Django application to demonstrate `crispy-forms-foundation`_ using `django-crispy-forms`_ with `Foundation`_.
+
+Links
+*****
+
+* Download his `PyPi package <http://pypi.python.org/pypi/crispy-forms-foundation-demo>`_;
+* Clone it on his `Github repository <https://github.com/sveetch/crispy-forms-foundation-demo>`_;
 
 Requires
 ========
@@ -28,7 +34,9 @@ Edit your ``settings.py`` to add the following settings : ::
         ...
     )
 
-    CRISPY_TEMPLATE_PACK = 'foundation'
+    CRISPY_TEMPLATE_PACK = 'foundation-5'
+
+You can also use the template pack name ``foundation-3``.
 
 Then mount it on your urls : ::
 
@@ -38,4 +46,4 @@ Then mount it on your urls : ::
         ...
     )
 
-That's all, now you can access to the demo. Take care that some templates attempt to inherit from a ``skeleton.html`` template which use `Foundation`_ 5.
+That's all, now you can access to the demo. Take care that some templates attempt to inherit from a ``skeleton.html`` template which use `Foundation`_.
