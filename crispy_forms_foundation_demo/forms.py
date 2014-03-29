@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, ButtonHolder, Submit
+from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, ButtonHolder, Submit, InlineField, InlineJustifiedField
 
 SELECT_INPUT_CHOICES = [('item-{0}'.format(i), 'Option item {0}'.format(i)) for i in range(1, 6)]
 RADIO_INPUT_CHOICES = [('item-{0}'.format(i), 'Radio item {0}'.format(i)) for i in range(1, 4)]
@@ -21,6 +21,8 @@ class BaseForm(forms.Form):
     select_input = forms.ChoiceField(label=_('Select input'), choices=SELECT_INPUT_CHOICES, required=True)
     radio_input = forms.ChoiceField(label=_('Radio inputs'), choices=RADIO_INPUT_CHOICES, widget=forms.RadioSelect, required=False)
     checkbox_input = forms.BooleanField(label=_('Checkbox input'), required=False)
+    inlinefield_input = forms.CharField(label=_('Inline field'), required=False)
+    inlinejustifiedfield_input = forms.CharField(label=_('Inline justified field'), required=False)
     
     def clean(self):
         cleaned_data = super(BaseForm, self).clean()
@@ -97,6 +99,11 @@ class Foundation5Form(BaseForm):
                         css_class='large-12'
                     ),
                 ),
+            ),
+            Fieldset(
+                _('Part 4'),
+                InlineField('inlinefield_input'),
+                InlineJustifiedField('inlinejustifiedfield_input'),
             ),
             Row(
                 Column(
