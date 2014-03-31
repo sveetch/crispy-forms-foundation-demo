@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, ButtonHolder, Submit, InlineField, InlineJustifiedField
+from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, ButtonHolder, ButtonHolderPanel, Submit, InlineField, InlineJustifiedField
 
 SELECT_INPUT_CHOICES = [('item-{0}'.format(i), 'Option item {0}'.format(i)) for i in range(1, 6)]
 RADIO_INPUT_CHOICES = [('item-{0}'.format(i), 'Radio item {0}'.format(i)) for i in range(1, 4)]
@@ -17,7 +17,7 @@ class BaseForm(forms.Form):
     column_input_1 = forms.CharField(label=_('Column input 1'), required=False)
     column_input_2 = forms.CharField(label=_('Column input 2'), required=True)
     column_input_3 = forms.CharField(label=_('Column input 3'), required=False)
-    textarea_input = forms.CharField(label=_('Textarea'), widget=forms.Textarea(attrs={'rows':5}), required=False)
+    textarea_input = forms.CharField(label=_('Textarea'), widget=forms.Textarea(attrs={'rows':5, 'required':''}), required=True)
     select_input = forms.ChoiceField(label=_('Select input'), choices=SELECT_INPUT_CHOICES, required=True)
     radio_input = forms.ChoiceField(label=_('Radio inputs'), choices=RADIO_INPUT_CHOICES, widget=forms.RadioSelect, required=False)
     checkbox_input = forms.BooleanField(label=_('Checkbox input'), required=False)
@@ -42,15 +42,13 @@ class BaseForm(forms.Form):
 class Foundation5Form(BaseForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
+        self.helper.attrs = {'data_abide': ''}
         self.helper.form_action = '.'
         self.helper.layout = Layout(
             Fieldset(
                 _('Part 1'),
                 Row(
-                    Column(
-                        'full_input',
-                        css_class='large-12'
-                    ),
+                    Column('full_input'),
                 ),
                 Row(
                     Column(
@@ -67,8 +65,7 @@ class Foundation5Form(BaseForm):
                                 'column_input_3',
                                 css_class='large-4'
                             ),
-                        ),
-                        css_class='large-12'
+                        )
                     ),
                 ),
             ),
@@ -94,10 +91,7 @@ class Foundation5Form(BaseForm):
             Fieldset(
                 _('Part 3'),
                 Row(
-                    Column(
-                        'textarea_input',
-                        css_class='large-12'
-                    ),
+                    Column('textarea_input'),
                 ),
             ),
             Fieldset(
@@ -107,10 +101,14 @@ class Foundation5Form(BaseForm):
             ),
             Row(
                 Column(
-                    ButtonHolder( Submit('submit', _('Submit')), css_class="text-right" ),
-                    css_class='twelve'
+                    ButtonHolder( Submit('submit', _('ButtonHolder Submit')))
                 ),
-            )
+            ),
+            Row(
+                Column(
+                    ButtonHolderPanel( Submit('submit', _('ButtonHolderPanel Submit')), css_class='text-right' )
+                ),
+            ),
         )
         
         super(Foundation5Form, self).__init__(*args, **kwargs)
