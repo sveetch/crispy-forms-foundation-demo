@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, HTML, ButtonHolder, ButtonHolderPanel, Submit, InlineField, InlineJustifiedField, SwitchField
+from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, HTML, ButtonHolder, ButtonHolderPanel, ButtonGroup, Panel, Button, Submit, InlineField, InlineJustifiedField, SwitchField
 
 SELECT_INPUT_CHOICES = [('item-{0}'.format(i), 'Option item {0}'.format(i)) for i in range(1, 6)]
 RADIO_INPUT_CHOICES = [('item-{0}'.format(i), 'Radio item {0}'.format(i)) for i in range(1, 4)]
@@ -121,6 +121,30 @@ class Foundation5Form(BaseForm):
             Row(
                 Column(
                     ButtonHolderPanel( Submit('submit', _('ButtonHolderPanel Submit')), css_class='text-right' )
+                ),
+            ),
+            Row(
+                Column(
+                    ButtonGroup(
+                        Submit('submit', _('Submit'), css_class='success'),
+                        Button('cancel', _('Cancel')),
+                        Button('dummy', _('Delete'), css_class='alert'),
+                        css_class='radius right'
+                    ),
+                    css_class='clearfix'
+                ),
+            ),
+            Row(
+                Column(
+                    Panel(
+                        ButtonGroup(
+                            Submit('submit', _('Submit'), css_class='success'),
+                            Button('cancel', _('Cancel')),
+                            Button('dummy', _('Delete'), css_class='alert'),
+                            css_class='radius right'
+                        ),
+                        css_class='clearfix'
+                    )
                 ),
             ),
         )

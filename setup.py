@@ -24,7 +24,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     install_requires=[
-        'crispy-forms-foundation >= 0.3.5'
+        'crispy-forms-foundation >= 0.3.6'
     ],
     include_package_data=True,
     zip_safe=False
