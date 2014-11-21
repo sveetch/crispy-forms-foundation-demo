@@ -1,10 +1,13 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from django import forms
-
 from crispy_forms.helper import FormHelper
-from crispy_forms_foundation.layout import Layout, Fieldset, Row, Column, HTML, ButtonHolder, ButtonHolderPanel, ButtonGroup, Panel, Button, Submit, InlineField, InlineJustifiedField, SwitchField
+from crispy_forms_foundation.layout import (
+    Layout, Fieldset, HTML, Row, Column, Panel, 
+    ButtonHolder, ButtonHolderPanel, ButtonGroup, Button, Submit, 
+    InlineField, InlineJustifiedField, 
+    SwitchField, InlineSwitchField
+)
 
 SELECT_INPUT_CHOICES = [('item-{0}'.format(i), 'Option item {0}'.format(i)) for i in range(1, 6)]
 RADIO_INPUT_CHOICES = [('item-{0}'.format(i), 'Radio item {0}'.format(i)) for i in range(1, 4)]
@@ -21,7 +24,8 @@ class BaseForm(forms.Form):
     select_input = forms.ChoiceField(label=_('Select input'), choices=SELECT_INPUT_CHOICES, required=True)
     radio_input = forms.ChoiceField(label=_('Radio inputs'), choices=RADIO_INPUT_CHOICES, widget=forms.RadioSelect, required=False)
     checkbox_input = forms.BooleanField(label=_('Checkbox input'), required=False)
-    checkbox_switch_input = forms.BooleanField(label=_('Checkbox switch'), required=False)
+    checkbox_switch_input_1 = forms.BooleanField(label=_('Checkbox switch'), required=False)
+    checkbox_switch_input_2 = forms.BooleanField(label=_('Checkbox inline switch'), required=False)
     inlinefield_input = forms.CharField(label=_('Inline field'), required=False)
     inlinejustifiedfield_input = forms.CharField(label=_('Inline justified field'), required=False)
     
@@ -90,12 +94,17 @@ class Foundation5Form(BaseForm):
                     Column(
                         Row(
                             Column(
-                                SwitchField('checkbox_switch_input', switch_class="round tiny"),
+                                SwitchField('checkbox_switch_input_1', switch_class="round tiny"),
                                 css_class='small-3'
                             ),
                             Column(
                                 HTML('<label>Checkbox with a switch field</label>'),
                                 css_class='small-9'
+                            ),
+                        ),
+                        Row(
+                            Column(
+                                InlineSwitchField('checkbox_switch_input_2'),
                             ),
                         ),
                         css_class='large-4'
