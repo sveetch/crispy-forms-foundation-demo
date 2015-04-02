@@ -2,12 +2,10 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms_foundation.layout import (
-    Layout, Fieldset, HTML, Row, Column, Panel, 
-    ButtonHolder, ButtonHolderPanel, ButtonGroup, Button, Submit, 
-    InlineField, InlineJustifiedField, 
-    SwitchField, InlineSwitchField
-)
+from crispy_forms_foundation.layout import Layout, Fieldset, TabItem, TabHolder, AccordionHolder, AccordionItem
+
+from .crispies import (part_1_crispies, part_2_crispies, part_3_crispies, 
+                       part_4_crispies, buttons_crispies)
 
 SELECT_INPUT_CHOICES = [('item-{0}'.format(i), 'Option item {0}'.format(i)) for i in range(1, 6)]
 RADIO_INPUT_CHOICES = [('item-{0}'.format(i), 'Radio item {0}'.format(i)) for i in range(1, 4)]
@@ -16,7 +14,7 @@ class BaseForm(forms.Form):
     """
     Base form with inputs
     """
-    full_input = forms.CharField(label=_('Full width input'), required=True)
+    full_input = forms.CharField(label=_('Full width input'), widget=forms.TextInput(attrs={'required':''}), required=True)
     column_input_1 = forms.CharField(label=_('Column input 1'), required=False)
     column_input_2 = forms.CharField(label=_('Column input 2'), required=True)
     column_input_3 = forms.CharField(label=_('Column input 3'), required=False)
@@ -44,118 +42,71 @@ class BaseForm(forms.Form):
         return
     
 
-class Foundation5Form(BaseForm):
+class FormByFieldsetsForm(BaseForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.attrs = {'data_abide': ''}
         self.helper.form_action = '.'
+        
+        part1 = [_('Part 1')]+part_1_crispies()
+        part2 = [_('Part 2')]+part_2_crispies()
+        part3 = [_('Part 3')]+part_3_crispies()
+        part4 = [_('Part 4')]+part_4_crispies()
+        
         self.helper.layout = Layout(
-            Fieldset(
-                _('Part 1'),
-                Row(
-                    Column('full_input'),
-                ),
-                Row(
-                    Column(
-                        Row(
-                            Column(
-                                'column_input_1',
-                                css_class='large-4'
-                            ),
-                            Column(
-                                'column_input_2',
-                                css_class='large-4'
-                            ),
-                            Column(
-                                'column_input_3',
-                                css_class='large-4'
-                            ),
-                        )
-                    ),
-                ),
-            ),
-            Fieldset(
-                _('Part 2'),
-                Row(
-                    Column(
-                        'select_input',
-                        css_class='large-12'
-                    ),
-                ),
-                Row(
-                    Column(
-                        'radio_input',
-                        css_class='large-4'
-                    ),
-                    Column(
-                        'checkbox_input',
-                        css_class='large-4'
-                    ),
-                    Column(
-                        Row(
-                            Column(
-                                SwitchField('checkbox_switch_input_1', switch_class="round tiny"),
-                                css_class='small-3'
-                            ),
-                            Column(
-                                HTML('<label>Checkbox with a switch field</label>'),
-                                css_class='small-9'
-                            ),
-                        ),
-                        Row(
-                            Column(
-                                InlineSwitchField('checkbox_switch_input_2'),
-                            ),
-                        ),
-                        css_class='large-4'
-                    ),
-                ),
-            ),
-            Fieldset(
-                _('Part 3'),
-                Row(
-                    Column('textarea_input'),
-                ),
-            ),
-            Fieldset(
-                _('Part 4'),
-                InlineField('inlinefield_input'),
-                InlineJustifiedField('inlinejustifiedfield_input'),
-            ),
-            Row(
-                Column(
-                    ButtonHolder( Submit('submit', _('ButtonHolder Submit')))
-                ),
-            ),
-            Row(
-                Column(
-                    ButtonHolderPanel( Submit('submit', _('ButtonHolderPanel Submit')), css_class='text-right' )
-                ),
-            ),
-            Row(
-                Column(
-                    ButtonGroup(
-                        Submit('submit', _('Submit'), css_class='success'),
-                        Button('cancel', _('Cancel')),
-                        Button('dummy', _('Delete'), css_class='alert'),
-                        css_class='radius right'
-                    ),
-                    css_class='clearfix'
-                ),
-            ),
-            Row(
-                Column(
-                    Panel(
-                        ButtonGroup(
-                            Submit('submit', _('Submit'), css_class='success'),
-                            Button('cancel', _('Cancel')),
-                            Button('dummy', _('Delete'), css_class='alert'),
-                            css_class='radius right'
-                        ),
-                        css_class='clearfix'
-                    )
-                ),
-            ),
+            Fieldset(*part1),
+            Fieldset(*part2),
+            Fieldset(*part3),
+            Fieldset(*part4),
+            *buttons_crispies()
         )
         
-        super(Foundation5Form, self).__init__(*args, **kwargs)
+        super(FormByFieldsetsForm, self).__init__(*args, **kwargs)
+    
+
+class FormByTabsForm(BaseForm):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.attrs = {'data_abide': ''}
+        self.helper.form_action = '.'
+        
+        part1 = [_('Part 1')]+part_1_crispies()
+        part2 = [_('Part 2')]+part_2_crispies()
+        part3 = [_('Part 3')]+part_3_crispies()
+        part4 = [_('Part 4')]+part_4_crispies()
+        
+        self.helper.layout = Layout(
+            TabHolder(
+                TabItem(*part1),
+                TabItem(*part2),
+                TabItem(*part3),
+                TabItem(*part4),
+            ),
+            *buttons_crispies()
+        )
+        
+        super(FormByTabsForm, self).__init__(*args, **kwargs)
+    
+
+class FormByAccordionsForm(BaseForm):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.attrs = {'data_abide': ''}
+        self.helper.form_action = '.'
+        
+        part1 = [_('Part 1')]+part_1_crispies()
+        part2 = [_('Part 2')]+part_2_crispies()
+        part3 = [_('Part 3')]+part_3_crispies()
+        part4 = [_('Part 4')]+part_4_crispies()
+        
+        self.helper.layout = Layout(
+            AccordionHolder(
+                AccordionItem(*part1),
+                AccordionItem(*part2),
+                AccordionItem(*part3),
+                AccordionItem(*part4),
+            ),
+            *buttons_crispies()
+        )
+        
+        super(FormByAccordionsForm, self).__init__(*args, **kwargs)

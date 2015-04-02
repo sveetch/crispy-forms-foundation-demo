@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Django application to demonstrate 'django-crispy-forms'
+Django application to demonstrate 'crispy-forms-foundation'
 """
-__version__ = '0.3.9'
+__version__ = '0.5.0'

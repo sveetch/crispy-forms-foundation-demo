@@ -19,12 +19,14 @@ Links
 Requires
 ========
 
-* `crispy-forms-foundation`_ >= 0.3.0;
+* `crispy-forms-foundation`_ >= 0.5.0;
 
 Install
 =======
 
-Edit your ``settings.py`` to add the following settings : ::
+Edit your ``settings.py`` to add the following settings :
+
+.. sourcecode:: python
 
     INSTALLED_APPS = (
         ...
@@ -36,9 +38,9 @@ Edit your ``settings.py`` to add the following settings : ::
 
     CRISPY_TEMPLATE_PACK = 'foundation-5'
 
-You can also use the template pack name ``foundation-3``.
+Then mount it on your urls :
 
-Then mount it on your urls : ::
+.. sourcecode:: python
 
     urlpatterns = patterns('',
         ...
@@ -46,4 +48,36 @@ Then mount it on your urls : ::
         ...
     )
 
-That's all, now you can access to the demo. Take care that some templates attempt to inherit from a ``skeleton.html`` template which use `Foundation`_.
+And finally, some templates attempt to inherit from a ``skeleton.html`` template where you should load your Foundation assets (CSS and JS), here is a sample of this template you should create into your templates directory:
+
+.. sourcecode:: django
+
+    <!DOCTYPE html>
+    <!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>{% block head_title %}Sample skeleton{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block header_content %}{% spaceless %}
+            {% block head_base_links %}
+                <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.min.css">
+            {% endblock %}
+            {% block head_base_js %}
+                <script type="text/javascript" src="{{ STATIC_URL }}js/foundation.min.js"></script>
+            {% endblock %}
+            
+        {% endspaceless %}{% endblock %}
+    </head>
+
+    <body>
+
+        {% block content_container %}<div id="body_content"{% block content_container_attrs %}{% endblock %}>
+            {% block base_content %}{% endblock %}
+        </div>{% endblock %}
+
+        {% block foot_more_js %}{% endblock %}
+    </body>
+    </html>
+
+That's all, now you can access to the demo. 
